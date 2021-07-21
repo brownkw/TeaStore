@@ -17,7 +17,7 @@ import tools.descartes.teastore.kieker.probes.records.OperationExecutionWithPara
  *
  */
 
-public class RecordHelper {
+public final class RecordHelper {
   private static final Logger LOG = LoggerFactory.getLogger(RecordHelper.class);
   private static final IMonitoringController CTRLINST = MonitoringController.getInstance();
   private static final ITimeSource TIME = CTRLINST.getTimeSource();
@@ -25,12 +25,25 @@ public class RecordHelper {
   private static final ControlFlowRegistry CFREGISTRY = ControlFlowRegistry.INSTANCE;
   private static final SessionRegistry SESSIONREGISTRY = SessionRegistry.INSTANCE;
 
+  private RecordHelper() { }
+
+  /**
+   * Creates a new data record for the given time.
+   * @param methodSignature Name of the calling method.
+   * @return The data to pass to RecordHelper.finishRecord() after function execution.
+   */
   public static Record createRecord(String methodSignature) {
     return createRecord(methodSignature, "void");
   }
 
+  /**
+   * Creates a new data record for the given time to later create a kieker probe.
+   * @param methodSignature Name of the calling method.
+   * @param returnType The return type of the calling function
+   * @return The data to pass to RecordHelper.finishRecord() after function execution.
+   */
   public static Record createRecord(String methodSignature, String returnType) {
-    if (!CTRLINST.isMonitoringEnabled() || !CTRLINST.isProbeActivated(methodSignature)) {   //TODO: signature starts with "/"?
+    if (!CTRLINST.isMonitoringEnabled() || !CTRLINST.isProbeActivated(methodSignature)) {
       return null;
     }
     // collect data
@@ -60,10 +73,19 @@ public class RecordHelper {
     return new Record(methodSignature, returnType, sessionId, traceId, tin, VMNAME, eoi, ess, entrypoint);
   }
 
+  /**
+   * Finishes the kieker probe of the function.
+   * @param record The data for the probe.
+   */
   public static void finishRecord(Record record) {
     finishRecord(record, "");
   }
 
+  /**
+   * Finishes the kieker probe of the function.
+   * @param record The data for the probe.
+   * @param returnValue The return value of the calling function.
+   */
   public static void finishRecord(Record record, String returnValue) {
     record.setReturnValue(returnValue);
     // measure after
@@ -87,14 +109,17 @@ public class RecordHelper {
 
   private static void logWithParameters(Record record, long tout) {
     if (record.hasParams()) {
-      CTRLINST.newMonitoringRecord(new OperationExecutionWithParametersRecord(record.getSignature(), record.getSessionId(),
-              record.getTraceId(), record.getTin(), tout, record.getHostname(), record.getEoi(), record.getEss(), record.getParamNames(), record.getParamValues(), record.getReturnType(), record.getReturnValue()));
+      CTRLINST.newMonitoringRecord(new OperationExecutionWithParametersRecord(record.getSignature(),
+              record.getSessionId(), record.getTraceId(), record.getTin(), tout, record.getHostname(),
+              record.getEoi(), record.getEss(), record.getParamNames(), record.getParamValues(),
+              record.getReturnType(), record.getReturnValue()));
     } else {
       logWithoutParameters(record, tout);
     }
   }
 
   private static void logWithoutParameters(Record record, long tout) {
-    CTRLINST.newMonitoringRecord(new OperationExecutionRecord(record.getSignature(), record.getSessionId(), record.getTraceId(), record.getTin(), tout, record.getHostname(), record.getEoi(), record.getEss()));
+    CTRLINST.newMonitoringRecord(new OperationExecutionRecord(record.getSignature(), record.getSessionId(),
+            record.getTraceId(), record.getTin(), tout, record.getHostname(), record.getEoi(), record.getEss()));
   }
 }
