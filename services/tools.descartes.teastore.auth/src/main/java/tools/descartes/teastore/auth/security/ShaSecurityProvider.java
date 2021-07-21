@@ -8,6 +8,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import tools.descartes.teastore.entities.message.SessionBlob;
+import tools.descartes.teastore.kieker.probes.RecordHelper;
+import tools.descartes.teastore.kieker.probes.RecordHelperParameters;
 
 /**
  * Secruity provider using AES.
@@ -34,12 +36,17 @@ public class ShaSecurityProvider implements ISecurityProvider {
   }
 
   private String blobToString(SessionBlob blob) {
-    ObjectMapper o = new ObjectMapper();
-    try {
-      return URLEncoder.encode(o.writeValueAsString(blob), "UTF-8");
-    } catch (JsonProcessingException | UnsupportedEncodingException e) {
-      throw new IllegalStateException("Could not save blob!");
-    }
+    String ret; //TODO: finish this first wrapper
+    RecordHelper.recordOperation("blobtostring", b -> {
+      ObjectMapper o = new ObjectMapper();
+      try {
+        ret = URLEncoder.encode(o.writeValueAsString(blob), "UTF-8");
+      } catch (JsonProcessingException | UnsupportedEncodingException e) {
+        throw new IllegalStateException("Could not save blob!");
+      }
+      return new RecordHelperParameters("void", "", new String[]{"test"}, new String[]{"test"});
+    });
+
   }
 
   @Override
