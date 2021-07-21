@@ -4,12 +4,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import tools.descartes.teastore.entities.message.SessionBlob;
 import tools.descartes.teastore.kieker.probes.RecordHelper;
-import tools.descartes.teastore.kieker.probes.RecordHelperParameters;
+import tools.descartes.teastore.kieker.probes.Record;
 
 /**
  * Secruity provider using AES.
@@ -36,17 +37,16 @@ public class ShaSecurityProvider implements ISecurityProvider {
   }
 
   private String blobToString(SessionBlob blob) {
-    String ret; //TODO: finish this first wrapper
-    RecordHelper.recordOperation("blobtostring", b -> {
-      ObjectMapper o = new ObjectMapper();
-      try {
-        ret = URLEncoder.encode(o.writeValueAsString(blob), "UTF-8");
-      } catch (JsonProcessingException | UnsupportedEncodingException e) {
-        throw new IllegalStateException("Could not save blob!");
-      }
-      return new RecordHelperParameters("void", "", new String[]{"test"}, new String[]{"test"});
-    });
-
+    Record r = RecordHelper.createRecord("tools.descartes.teastore.auth.security.SHASecurityProvider.blobToString", "String");
+    ObjectMapper o = new ObjectMapper();
+    try {
+      String s = URLEncoder.encode(o.writeValueAsString(blob), StandardCharsets.UTF_8);
+      r.addParam("test1", "test2");
+      RecordHelper.finishRecord(r, s);
+      return s;
+    } catch (JsonProcessingException e) {
+      throw new IllegalStateException("Could not save blob!");
+    }
   }
 
   @Override
