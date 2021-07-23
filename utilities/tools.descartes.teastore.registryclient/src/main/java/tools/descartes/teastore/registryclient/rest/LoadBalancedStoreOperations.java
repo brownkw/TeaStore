@@ -1,5 +1,6 @@
 package tools.descartes.teastore.registryclient.rest;
 
+import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -64,6 +65,56 @@ public final class LoadBalancedStoreOperations {
                 .queryParam("totalPriceInCents", totalPriceInCents))
             .post(Entity.entity(blob, MediaType.APPLICATION_JSON), Response.class)));
     return RestUtil.readThrowAndOrClose(r, SessionBlob.class);
+  }
+
+  /**
+   * Posts payment to payment gateway.
+   * 
+   * @param blob
+   *          Sessionblob
+   * @param addressName
+   *          adress
+   * @param address1
+   *          adress
+   * @param address2
+   *          adress
+   * @param creditCardCompany
+   *          creditcard
+   * @param creditCardExpiryDate
+   *          creditcard
+   * @param creditCardNumber
+   *          creditcard
+   * @param totalPriceInCents
+   *          totalPrice
+   * @throws NotFoundException
+   *           If 404 was returned.
+   * @throws LoadBalancerTimeoutException
+   *           On receiving the 408 status code and on repeated load balancer
+   *           socket timeouts.
+   * @return empty SessionBlob
+   */
+  public static SessionBlob processPayment(SessionBlob blob, String addressName, String address1,
+      String address2, String creditCardCompany, String creditCardExpiryDate,
+      long totalPriceInCents, String creditCardNumber) {
+    
+    String endpointUrl = "";
+    switch (creditCardCompany.toLowerCase()) {
+      case "visa":
+        endpointUrl = System.getenv("VISA_URL");
+        break;
+      case "mastercard":
+        endpointUrl = System.getenv("MASTERCARD_URL");
+        break;
+      default:
+        endpointUrl = System.getenv("AMEX_URL");
+        break;
+    }
+
+    Response r = ClientBuilder.newClient().target(endpointUrl).request().accept(MediaType.APPLICATION_JSON).get();
+    System.out.println(r.getStatusInfo().getFamily().toString());
+    System.out.println(r.getEntity().toString());
+
+    return blob;
   }
 
   /**

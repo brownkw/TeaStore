@@ -110,6 +110,19 @@ public class CartActionServlet extends AbstractUIServlet {
 			for (OrderItem item : blob.getOrderItems()) {
 				price += item.getQuantity() * item.getUnitPriceInCents();
 			}
+
+			try {
+				if (Boolean.parseBoolean(System.getenv("PROCESS_PAYMENT"))) {
+					LoadBalancedStoreOperations.processPayment(
+						getSessionBlob(request), infos[0] + " " + infos[1], infos[2],
+						infos[3], infos[4],
+						YearMonth.parse(infos[6], DTF).atDay(1).format(DateTimeFormatter.ISO_LOCAL_DATE), 
+						price, infos[5]);
+				}
+			} catch (Exception e) {
+				// Swallowing the exception
+			}
+
 			blob = LoadBalancedStoreOperations.placeOrder(getSessionBlob(request), infos[0] + " " + infos[1], infos[2],
 					infos[3], infos[4],
 					YearMonth.parse(infos[6], DTF).atDay(1).format(DateTimeFormatter.ISO_LOCAL_DATE), price, infos[5]);

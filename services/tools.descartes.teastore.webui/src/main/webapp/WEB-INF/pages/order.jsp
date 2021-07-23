@@ -58,9 +58,9 @@
 							<div class="col-sm-6 col-md-7">
 								<select class="form-control form-control-lg" name="cardtype"
 									id="cardtype">
-									<option value="volvo">Visa</option>
-									<option value="saab">MasterCard</option>
-									<option value="fiat">American Express</option>
+									<option value="Visa">Visa</option>
+									<option value="MasterCard">MasterCard</option>
+									<option value="American Express">American Express</option>
 								</select>
 							</div>
 						</div>
