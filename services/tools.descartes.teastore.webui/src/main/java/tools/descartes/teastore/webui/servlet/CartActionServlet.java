@@ -30,6 +30,9 @@ import tools.descartes.teastore.registryclient.rest.LoadBalancedStoreOperations;
 import tools.descartes.teastore.entities.OrderItem;
 import tools.descartes.teastore.entities.message.SessionBlob;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Servlet for handling all cart actions.
  * 
@@ -39,6 +42,7 @@ import tools.descartes.teastore.entities.message.SessionBlob;
 public class CartActionServlet extends AbstractUIServlet {
 	private static final long serialVersionUID = 1L;
 	private static final DateTimeFormatter DTF = DateTimeFormatter.ofPattern("MM/yyyy");
+	private static final Logger LOG = LoggerFactory.getLogger(CartActionServlet.class);
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -121,6 +125,7 @@ public class CartActionServlet extends AbstractUIServlet {
 				}
 			} catch (Exception e) {
 				// Swallowing the exception
+				LOG.warn(e.toString());
 			}
 
 			blob = LoadBalancedStoreOperations.placeOrder(getSessionBlob(request), infos[0] + " " + infos[1], infos[2],
