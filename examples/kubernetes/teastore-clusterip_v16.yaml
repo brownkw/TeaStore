@@ -68,7 +68,7 @@ metadata:
   name: teastore-registry
   labels:
     app: teastore
-    run: teastore-registry
+    run: teastore-registry    
 spec:
   ports:
     - port: 8080
@@ -80,6 +80,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: teastore-persistence
+  labels:
+    framework: java
 spec:
   selector:
     matchLabels:
@@ -128,6 +130,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: teastore-auth
+  labels:
+    framework: java
 spec:
   selector:
     matchLabels:
@@ -172,6 +176,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: teastore-image
+  labels:
+    framework: java
 spec:
   selector:
     matchLabels:
@@ -216,6 +222,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: teastore-recommender
+  labels:
+    framework: java
 spec:
   selector:
     matchLabels:
@@ -260,6 +268,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: teastore-webui
+  labels:
+    framework: java
 spec:
   selector:
     matchLabels:
