@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: teastore-auth
+  labels:
+    framework: java
 spec:
   selector:
     matchLabels:
@@ -46,6 +48,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: teastore-image
+  labels:
+    framework: java
 spec:
   selector:
     matchLabels:
@@ -90,6 +94,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: teastore-recommender
+  labels:
+    framework: java
 spec:
   selector:
     matchLabels:
@@ -134,6 +140,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: teastore-webui
+  labels:
+    framework: java
 spec:
   selector:
     matchLabels:

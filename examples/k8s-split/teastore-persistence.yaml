@@ -41,6 +41,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: teastore-persistence
+  labels:
+    framework: java
 spec:
   selector:
     matchLabels:
