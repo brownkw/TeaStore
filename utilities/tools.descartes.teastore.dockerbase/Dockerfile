@@ -2,13 +2,13 @@ FROM tomcat:8.5-jre8
 MAINTAINER Chair of Software Engineering <se2-it@informatik.uni-wuerzburg.de>
 
 # Delete all example webapps from base container
-RUN rm -r /usr/local/tomcat/webapps/examples
-RUN rm -r /usr/local/tomcat/webapps/docs
-RUN rm -r /usr/local/tomcat/webapps/host-manager
-RUN rm -r /usr/local/tomcat/webapps/manager
+RUN rm -r /usr/local/tomcat/webapps/examples || true
+RUN rm -r /usr/local/tomcat/webapps/docs || true
+RUN rm -r /usr/local/tomcat/webapps/host-manager || true
+RUN rm -r /usr/local/tomcat/webapps/manager || true
 
-RUN rm /usr/local/tomcat/lib/websocket-api.jar
-RUN rm /usr/local/tomcat/lib/tomcat-websocket.jar
+RUN rm /usr/local/tomcat/lib/websocket-api.jar || true
+RUN rm /usr/local/tomcat/lib/tomcat-websocket.jar || true
 
 # Copy config, database connector library and script for environment variables into container
 COPY baseContext.xml /usr/local/tomcat/conf/context.xml
