@@ -16,10 +16,6 @@ spec:
       containers:
         - name: teastore-db
           image: descartesresearch/teastore-db
-          resources:
-            requests:
-              memory: "2048M"
-              cpu: "500m"
           ports:
             - containerPort: 3306
 ---
@@ -59,10 +55,6 @@ spec:
           image: brownkw/teastore-persistence
           ports:
             - containerPort: 8080
-          resources:
-            requests:
-              memory: "2048M"
-              cpu: "500m"
           env:
             - name: HOST_NAME
               value: "teastore-persistence"
@@ -88,4 +80,3 @@ spec:
   selector:
     run: teastore-persistence
 ---
-    

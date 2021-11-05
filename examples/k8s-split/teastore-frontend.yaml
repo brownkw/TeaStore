@@ -20,10 +20,6 @@ spec:
           image: brownkw/teastore-auth
           ports:
             - containerPort: 8080
-          resources:
-            requests:
-              memory: "2048M"
-              cpu: "500m"
           env:
             - name: HOST_NAME
               value: "teastore-auth"
@@ -66,10 +62,6 @@ spec:
           image: brownkw/teastore-image
           ports:
             - containerPort: 8080
-          resources:
-            requests:
-              memory: "2048M"
-              cpu: "500m"
           env:
             - name: HOST_NAME
               value: "teastore-image"
@@ -112,10 +104,6 @@ spec:
           image: brownkw/teastore-recommender
           ports:
             - containerPort: 8080
-          resources:
-            requests:
-              memory: "2048M"
-              cpu: "500m"
           env:
             - name: HOST_NAME
               value: "teastore-recommender"
@@ -156,10 +144,6 @@ spec:
       containers:
         - name: teastore-webui
           image: brownkw/teastore-webui
-          resources:
-            requests:
-              memory: "2048M"
-              cpu: "500m"
           ports:
             - containerPort: 8080
           env:
