@@ -59,7 +59,9 @@ spec:
             - name: HOST_NAME
               value: "teastore-persistence"
             - name: REGISTRY_HOST
-              value: "$REGISTRY_LOADBALANCER_HOST"
+              value: "$REGISTRY_NODEPORT_HOST"
+            - name: REGISTRY_PORT
+              value: "$REGISTRY_NODEPORT_PORT"
             - name: DB_HOST
               value: "teastore-db"
             - name: DB_PORT
@@ -73,10 +75,12 @@ metadata:
     app: teastore
     run: teastore-persistence
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
-    - port: 8080
+    - nodePort: 32311
+      port: 8080
       protocol: TCP
+      targetPort: 8080
   selector:
     run: teastore-persistence
 ---

@@ -29,10 +29,12 @@ metadata:
     app: teastore
     run: teastore-registry
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
-    - port: 8080
+    - nodePort: 32301
+      port: 8080
       protocol: TCP
+      targetPort: 8080
   selector:
     run: teastore-registry
 ---
