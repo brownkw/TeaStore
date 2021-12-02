@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: teastore-registry
-          image: brownkw/teastore-registry
+          image: public.ecr.aws/d8i9k4x3/fso-lab-teastore-registry
           ports:
             - containerPort: 8080
 ---

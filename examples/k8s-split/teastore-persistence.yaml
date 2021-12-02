@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: teastore-db
-          image: descartesresearch/teastore-db
+          image: public.ecr.aws/d8i9k4x3/fso-lab-teastore-db
           ports:
             - containerPort: 3306
 ---
@@ -52,7 +52,7 @@ spec:
     spec:
       containers:
         - name: teastore-persistence
-          image: brownkw/teastore-persistence
+          image: public.ecr.aws/d8i9k4x3/fso-lab-teastore-persistence
           ports:
             - containerPort: 8080
           env:
