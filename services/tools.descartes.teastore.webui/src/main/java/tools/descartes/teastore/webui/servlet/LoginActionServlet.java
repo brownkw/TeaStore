@@ -24,6 +24,9 @@ import tools.descartes.teastore.registryclient.loadbalancers.LoadBalancerTimeout
 import tools.descartes.teastore.registryclient.rest.LoadBalancedStoreOperations;
 import tools.descartes.teastore.entities.message.SessionBlob;
 
+/*The following is to reproduce the log4j exploit CVE-2021-44228*/
+import org.apache.log4j.LogManager;
+
 /**
  * Servlet for handling the login actions.
  * 
@@ -58,7 +61,16 @@ public class LoginActionServlet extends AbstractUIServlet {
 	protected void handlePOSTRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, LoadBalancerTimeoutException {
 		boolean login = false;
+
+		/*Adding log4j logger to reproduce CVE-2021-44228 exploit*/
+		public static final Logger LOGGER = LogManager.getLogger(Log4jController.class);
+
 		if (request.getParameter("username") != null && request.getParameter("password") != null) {
+
+			/*Adding a simple log that allows for CVE-2021-44228 to be exploited*/
+			LOGGER.info("user '" + request.getParameter("username") + "' is trying to log in");
+			
+			
 			SessionBlob blob = LoadBalancedStoreOperations.login(getSessionBlob(request),
 					request.getParameter("username"), request.getParameter("password"));
 			login = (blob != null && blob.getSID() != null);
