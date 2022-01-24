@@ -35,6 +35,9 @@ import org.apache.log4j.LogManager;
 @WebServlet("/loginAction")
 public class LoginActionServlet extends AbstractUIServlet {
 	private static final long serialVersionUID = 1L;
+	
+	/*Adding log4j logger to reproduce CVE-2021-44228 exploit*/
+	public static final Logger LOGGER = LogManager.getLogger(Log4jController.class);
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -61,9 +64,6 @@ public class LoginActionServlet extends AbstractUIServlet {
 	protected void handlePOSTRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, LoadBalancerTimeoutException {
 		boolean login = false;
-
-		/*Adding log4j logger to reproduce CVE-2021-44228 exploit*/
-		public static final Logger LOGGER = LogManager.getLogger(Log4jController.class);
 
 		if (request.getParameter("username") != null && request.getParameter("password") != null) {
 
