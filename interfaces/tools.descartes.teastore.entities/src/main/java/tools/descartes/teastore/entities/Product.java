@@ -185,4 +185,14 @@ public class Product {
     return true;
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.Object#toString(java.lang.Object)
+   */
+  @Override
+  public String toString() {
+    return this.id + ": " + this.name + " -- " + this.listPriceInCents;
+  }
+
 }

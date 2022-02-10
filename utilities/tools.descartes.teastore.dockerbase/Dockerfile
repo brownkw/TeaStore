@@ -47,7 +47,7 @@ RUN chmod +x /usr/local/tomcat/bin/start.sh
 
 RUN mkdir -p /kieker/logs
 # Import self-signed certificate for HTTPS teastore into keystore. NOTE: to adapt certificate hostnames, configure and run ssl/generate_cert.sh and rebuild the container!
-RUN keytool -import -noprompt -trustcacerts -alias teastoressl -file /usr/local/tomcat/ssl/cert.pem -keystore "/docker-java-home/jre/lib/security/cacerts" -storepass changeit
+RUN keytool -import -noprompt -trustcacerts -alias teastoressl -file /usr/local/tomcat/ssl/cert.pem -keystore "$JAVA_HOME/lib/security/cacerts" -storepass changeit
 
 COPY kieker.monitoring.properties 							/kieker/config/kieker.monitoring.properties
 COPY aop.xml 												/usr/local/tomcat/lib/aop.xml

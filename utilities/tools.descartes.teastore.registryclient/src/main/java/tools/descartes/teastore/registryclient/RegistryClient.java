@@ -102,10 +102,18 @@ public class RegistryClient {
     try {
       registryRESTURL = (String) new InitialContext().lookup("java:comp/env/registryURL");
     } catch (NamingException e) {
-      LOG.warn("registryURL not set. Falling back to default registry URL (localhost, port " + port
-          + ").");
-      registryRESTURL = "http://localhost:" + port
-          + "/tools.descartes.teastore.registry/rest/services/";
+
+      // 2022-02-10, Wayne Brown
+      // Adding in environment lookup for standalone Java programs
+      if (System.getenv("registryURL") != null && System.getenv("registryURL").length() > 0) {
+        registryRESTURL = System.getenv("registryURL");
+      } else {
+        LOG.warn("registryURL not set. Falling back to default registry URL (localhost, port " + port
+            + ").");
+        registryRESTURL = "http://localhost:" + port
+            + "/tools.descartes.teastore.registry/rest/services/";
+      }
+
     }
   }
 
@@ -122,8 +130,9 @@ public class RegistryClient {
    * Handles full registration.
    *
    * @param contextPath
-   *          contextPath private String getContextPath(ServletContextEvent event)
-   *          { return event.getServletContext().getContextPath(); }
+   *                    contextPath private String
+   *                    getContextPath(ServletContextEvent event)
+   *                    { return event.getServletContext().getContextPath(); }
    */
   public void unregister(String contextPath) {
     Service service = getService(contextPath);
@@ -150,8 +159,9 @@ public class RegistryClient {
    * Handles full unregistration.
    *
    * @param contextPath
-   *          contextPath private String getContextPath(ServletContextEvent event)
-   *          { return event.getServletContext().getContextPath(); }
+   *                    contextPath private String
+   *                    getContextPath(ServletContextEvent event)
+   *                    { return event.getServletContext().getContextPath(); }
    */
   public void register(String contextPath) {
     Service service = getService(contextPath);
@@ -166,11 +176,12 @@ public class RegistryClient {
    * Calls the StartupCallback after the service is available.
    *
    * @param requestedService
-   *          service to check for
+   *                         service to check for
    * @param myService
-   *          The Service enum for the waiting service (the service calling this).
+   *                         The Service enum for the waiting service (the service
+   *                         calling this).
    * @param callback
-   *          StartupCallback to call
+   *                         StartupCallback to call
    */
   public void runAfterServiceIsAvailable(Service requestedService, StartupCallback callback,
       Service myService) {
@@ -183,7 +194,7 @@ public class RegistryClient {
    * Get all servers for a service in the {@link Service} enum from the registry.
    *
    * @param targetService
-   *          The service for which to get the servers.
+   *                      The service for which to get the servers.
    * @return List of servers.
    */
   public List<Server> getServersForService(Service targetService) {
@@ -232,9 +243,9 @@ public class RegistryClient {
    * Register a new server for a service in the registry.
    *
    * @param service
-   *          The service for which to register.
+   *                The service for which to register.
    * @param server
-   *          The server address.
+   *                The server address.
    * @return True, if registration succeeded.
    */
   protected boolean registerOnce(Service service, Server server) {
@@ -254,9 +265,9 @@ public class RegistryClient {
    * Unregister a server for a service in the registry.
    *
    * @param service
-   *          The service for which to unregister.
+   *                The service for which to unregister.
    * @param server
-   *          The server address to remove.
+   *                The server address to remove.
    * @return True, if unregistration succeeded.
    */
   private boolean unregisterOnce(Service service, Server server) {
@@ -314,7 +325,7 @@ public class RegistryClient {
    * Protected for testing.
    *
    * @param serviceName
-   *          name of service
+   *                    name of service
    * @return cleaned service name
    */
   protected String cleanupServiceName(String serviceName) {
