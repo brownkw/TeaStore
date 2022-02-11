@@ -30,7 +30,7 @@ spec:
             - name: REGISTRY_PORT
               value: "$REGISTRY_NODEPORT_PORT"
             - name: MEM_INCREMENT_MB
-              value: "1"
+              value: "5"
             - name: PROCESSING_RATE_SECONDS
               value: "60"
             - name: MAX_JVM_HEAP
