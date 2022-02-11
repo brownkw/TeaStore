@@ -59,4 +59,4 @@ services:
     depends_on:
       - persistence
       - registry
-    mem_limit: 1G
+    mem_limit: 512M
