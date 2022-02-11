@@ -35,12 +35,12 @@ public class OrderprocessorTask extends TimerTask {
       productlist.stream().forEach((product) -> {
         System.out.println(product.toString());
 
-        int mem_increment_mb = 100;
+        int mem_increment_mb = 10;
         if (System.getenv("MEM_INCREMENT_MB") != null) {
           try {
             mem_increment_mb = Integer.parseInt(System.getenv("MEM_INCREMENT_MB"));
           } catch (Exception e) {
-            mem_increment_mb = 100;
+            mem_increment_mb = 10;
           }
         }
         

@@ -23,7 +23,15 @@ public class OrderprocessorService {
         }
 
         Timer t = new Timer();
-        t.scheduleAtFixedRate(new OrderprocessorTask(), 0, 60000);
+        int numSeconds = 60;
+        if (System.getenv("PROCESSING_RATE_SECONDS") != null) {
+            try {
+                numSeconds = Integer.parseInt(System.getenv("PROCESSING_RATE_SECONDS"));
+            } catch (NumberFormatException nfe) {
+                numSeconds = 60;
+            }
+        }
+        t.scheduleAtFixedRate(new OrderprocessorTask(), 0, numSeconds * 1000);
     }
 
     public boolean IsServiceRunning() {
