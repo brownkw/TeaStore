@@ -36,6 +36,9 @@ import tools.descartes.teastore.registryclient.util.NotFoundException;
 import tools.descartes.teastore.entities.Category;
 import tools.descartes.teastore.entities.message.SessionBlob;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
 /**
  * Abstract servlet for the webUI.
  * 
@@ -89,6 +92,11 @@ public abstract class AbstractUIServlet extends HttpServlet {
 	 * Text for removed product.
 	 */
 	protected static final String REMOVEPRODUCT = "Product %s is removed from cart!";
+
+	/**
+	 * Log4J Logger.
+	 */
+	private static final Logger LOGGER = LogManager.getLogger(AbstractUIServlet.class);
 
 	/**
 	 * Try to read the SessionBlob from the cookie. If no SessioBlob exist, a new
@@ -221,6 +229,13 @@ public abstract class AbstractUIServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
+
+			// 2022-02-14, Wayne Brown
+			// Echoing header in request if it exists.
+			if (request.getHeader("X-AppD-CloudLabAuth") != null) {
+				LOGGER.info("X-AppD-CloudLabAuth: " + request.getHeader("X-AppD-CloudLabAuth"));
+			}
+
 			handleGETRequest(request, response);
 		} catch (LoadBalancerTimeoutException e) {
 			serveTimoutResponse(request, response, e.getTargetService());
@@ -243,6 +258,12 @@ public abstract class AbstractUIServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
+
+			// 2022-02-14, Wayne Brown
+			// Echoing header in request if it exists.
+			if (request.getHeader("X-AppD-CloudLabAuth") != null) {
+				LOGGER.info("X-AppD-CloudLabAuth: " + request.getHeader("X-AppD-CloudLabAuth"));
+			}
 
 			handlePOSTRequest(request, response);
 		} catch (LoadBalancerTimeoutException e) {

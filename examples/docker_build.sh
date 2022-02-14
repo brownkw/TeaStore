@@ -4,7 +4,7 @@ push_flag='false'
 registry='public.ecr.aws/d8i9k4x3'
 
 print_usage() {
-  printf "Usage: docker_build.sh [-p] [-c CONTAINER_PREFIX] [-r REGISTRY_NAME]\n"
+  printf "Usage: docker_build.sh [-p] [-r REGISTRY_NAME]\n"
 }
 
 while getopts 'pr:' flag; do
@@ -30,6 +30,9 @@ docker build -t "${registry}/fso-lab-teastore-orderprocessor" ../services/tools.
 
 if [ "$push_flag" = 'true' ]; then
   # docker push "$registry/teastore-base"
+  echo "Logging in to ECR..."
+  aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/d8i9k4x3
+
   docker push "$registry/fso-lab-teastore-registry"
   docker push "$registry/fso-lab-teastore-persistence"
   docker push "$registry/fso-lab-teastore-image"
