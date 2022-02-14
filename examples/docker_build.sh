@@ -16,6 +16,9 @@ while getopts 'pr:' flag; do
   esac
 done
 
+echo "Logging in to ECR..."
+aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/d8i9k4x3
+
 # docker build --no-cache=true -t "$registry/teastore-base" ../utilities/tools.descartes.teastore.dockerbase/
 # perl -i -pe's|.*FROM descartesresearch/|FROM '"$registry"'/|g' ../services/tools.descartes.teastore.*/Dockerfile
 docker build -t "${registry}/fso-lab-teastore-registry" ../services/tools.descartes.teastore.registry/
@@ -29,9 +32,7 @@ docker build -t "${registry}/fso-lab-teastore-orderprocessor" ../services/tools.
 # perl -i -pe's|.*FROM '"$registry"'/|FROM descartesresearch/|g' ../services/tools.descartes.teastore.*/Dockerfile
 
 if [ "$push_flag" = 'true' ]; then
-  # docker push "$registry/teastore-base"
-  echo "Logging in to ECR..."
-  aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/d8i9k4x3
+  # docker push "$registry/teastore-base"  
 
   docker push "$registry/fso-lab-teastore-registry"
   docker push "$registry/fso-lab-teastore-persistence"
