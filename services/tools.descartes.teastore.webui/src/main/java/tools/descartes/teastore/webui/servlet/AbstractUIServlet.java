@@ -19,6 +19,7 @@ import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -233,7 +234,10 @@ public abstract class AbstractUIServlet extends HttpServlet {
 			// 2022-02-14, Wayne Brown
 			// Echoing header in request if it exists.
 			if (request.getHeader("X-AppD-CloudLabAuth") != null) {
-				LOGGER.info("X-AppD-CloudLabAuth: " + request.getHeader("X-AppD-CloudLabAuth"));
+				String headerValueRaw = request.getHeader("X-AppD-CloudLabAuth"); 
+				String headerValue = URLDecoder.decode(headerValueRaw, StandardCharsets.UTF_8.name());
+				LOGGER.info("Raw X-AppD-CloudLabAuth: " + headerValueRaw);
+				// LOGGER.info("X-AppD-CloudLabAuth: " + headerValue);
 			}
 
 			handleGETRequest(request, response);
