@@ -14,30 +14,31 @@ interfaces/tools.descartes.teastore.entities/.classpath
 .*
 !/.gitignore
 
-# Compiled class file
-*.class
+# # Compiled class file
+# *.class
 
-# Log file
-*.log
-**/test-launch.config
+# # Log file
+# *.log
+# **/test-launch.config
 
-# BlueJ files
-*.ctxt
+# # BlueJ files
+# *.ctxt
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+# # Mobile Tools for Java (J2ME)
+# .mtj.tmp/
 
-# Package Files #
-*.jar
-*.war
-*.ear
-*.zip
-*.tar.gz
-*.rar
-*.iml
-**/*.vsix
+# # Package Files #
+# *.jar
+# *.war
+# *.ear
+# *.zip
+# *.tar.gz
+# *.rar
+# *.iml
+# **/*.vsix
 
 !services/tools.descartes.teastore.webui/*.tar.gz
+# !utilities/tools.descartes.teastore.kieker.rabbitmq/src/main/webapp/WEB-INF/lib/kieker-1.14/SNAPSHOT-aspectj.jar
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
@@ -54,7 +55,6 @@ target/
 **/.checkstyle
 target/
 bin/
-**/lib/
 out/
 server/
 .jqwik-database
@@ -62,7 +62,6 @@ server/
 jdtls/
 
 !java-extension/.mvn/wrapper/maven-wrapper.jar
-!**/kieker-1.14-SNAPSHOT-aspectj.jar
 
 out
 node_modules
