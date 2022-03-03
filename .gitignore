@@ -62,6 +62,7 @@ server/
 jdtls/
 
 !java-extension/.mvn/wrapper/maven-wrapper.jar
+!**/kieker-1.14-SNAPSHOT-aspectj.jar
 
 out
 node_modules
